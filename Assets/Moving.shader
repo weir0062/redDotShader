@@ -24,7 +24,7 @@ Shader "Custom/Moving"
         #pragma target 3.0
 
         sampler2D _MainTex;
-        float3 _NewColor;
+        float4 _NewColor;
         float3 _Position;
         float _DotRadius;
 
@@ -49,12 +49,12 @@ Shader "Custom/Moving"
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             // Albedo comes from a texture tinted by color
-            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _NewColor;
+            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
             o.Albedo = c.rgb;
+            o.Alpha = c.a;
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
-            o.Alpha = c.a;
             float3 delta = IN.worldPos - _Position;
             float dist = delta.x * delta.x + delta.y * delta.y;
 
